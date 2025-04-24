@@ -14,5 +14,14 @@ CHIP DMux4Way {
     OUT a, b, c, d;
 
     PARTS:
-    //// Replace this comment with your code.
+    //Select 1 between a or b and c or d for sel[0] pattern
+    DMux(in = in, sel = sel[0], a = a1, b = b1);
+    DMux(in = in, sel = sel[0], a = c1, b = d1);
+    //Select 1 for a, b, c, d depending on sel[1] 
+    DMux(in = a1, sel = sel[1], a = a, b = a2); //a2 for unused variable 
+    DMux(in = b1, sel = sel[1], a = b, b = b2); //b2 for unused variable
+    DMux(in = c1, sel = sel[1], a = c2, b = c); //c2 for unused variable
+    DMux(in = d1, sel = sel[1], a = d2, b = d); //d2 for unused variable
+    
+
 }
