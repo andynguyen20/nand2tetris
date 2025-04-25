@@ -18,5 +18,26 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    //// Replace this comment with your code.
+    DMux(in = in, sel = sel[0], a = a1, b = b1);
+    DMux(in = in, sel = sel[0], a = c1, b = d1);
+    DMux(in = in, sel = sel[0], a = e1, b = f1);
+    DMux(in = in, sel = sel[0], a = g1, b = h1);
+
+    DMux(in = a1, sel = sel[1], a = a2, b = a3); //a3 for unused variable
+    DMux(in = b1, sel = sel[1], a = b2, b = b3); //b3 for unused variable
+    DMux(in = e1, sel = sel[1], a = e2, b = e3); //e3 for unused variable
+    DMux(in = f1, sel = sel[1], a = f2, b = f3); //f3 for unused variable
+    DMux(in = c1, sel = sel[1], a = c3, b = c2); //c3 for unused variable
+    DMux(in = d1, sel = sel[1], a = d3, b = d2); //d3 for unused variable
+    DMux(in = g1, sel = sel[1], a = g3, b = g2); //g3 for unused variable
+    DMux(in = h1, sel = sel[1], a = h3, b = h2); //h3 for unused variable
+
+    DMux(in = a2, sel = sel[2], a = a, b = a4); //a4 for unused variable
+    DMux(in = b2, sel = sel[2], a = b, b = b4); //b4 for unused variable
+    DMux(in = c2, sel = sel[2], a = c, b = c4); //c4 for unused variable
+    DMux(in = d2, sel = sel[2], a = d, b = d4); //d4 for unused variable
+    DMux(in = e2, sel = sel[2], a = e4, b = e); //e4 for unused variable
+    DMux(in = f2, sel = sel[2], a = f4, b = f); //f4 for unused variable
+    DMux(in = g2, sel = sel[2], a = g4, b = g); //g4 for unused variable
+    DMux(in = h2, sel = sel[2], a = h4, b = h); //h4 for unused variable 
 }
