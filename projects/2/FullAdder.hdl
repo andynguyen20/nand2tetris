@@ -11,5 +11,34 @@ CHIP FullAdder {
         carry;   // Left bit of a + b + c
 
     PARTS:
-    //// Replace this comment with your code.
+    // karnaugh map equation: sum = (~a)*(~b)*c + a*b*c + (~a)*b*(~c)
+    // karnaugh map equation: carry = a*b + b*c + ac
+
+    Not(in = a, out = nota); // ~a
+    Not(in = b, out = notb); // ~b
+    Not(in = c, out = notc); // ~c
+
+    And(a = nota, b = notb, out = and1); // (~a)*(~b)
+    And(a = and1, b = c, out = and2); // (~a)*(~b)*c
+
+    And(a = a, b = b, out = and3); // a*b 
+    And(a = and3, b = c, out = and4); // a*b*c 
+
+    And(a = nota, b = b, out = and8); // (~a)*b
+    And(a = and8, b = notc, out = and5); // (~a)*b*(~c)
+
+    And(a = a, b = notb, out = and9); //a*(~b)
+    And(a = and9, b = notc, out = and10); //a*(~b)*(~c)
+
+    Or(a = and2, b = and4, out = or1); // (~a)*(~b)*c + a*b*c
+    Or(a = or1, b = and5, out = or3);  // (~a)*(~b)*c + a*b*c + (~a)*b*(~c)
+    Or(a = or3, b = and10, out = sum);  // (~a)*(~b)*c + a*b*c + (~a)*b*(~c) + a*(~b)*(~c)
+
+    And(a = b, b = c, out = and6); // b*c 
+    And(a = a, b = c, out = and7); // a*c
+
+    Or(a = and3, b = and6, out = or2); // a*b + b*c 
+    Or(a = or2, b = and7, out = carry); // a*b + b*c + a*c
+
+
 }
