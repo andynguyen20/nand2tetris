@@ -61,6 +61,18 @@ CHIP ALU {
 
     Mux16(a = fResult, b = notfResult, sel = no, out = out);
 
+    Mux16(a = fResult, b = notfResult, sel = no, out[0..7] = first8Bits, out[8..15] = last8Bits);
+    Or8Way(in = first8Bits, out = evalFirst8Bits);
+    Or8Way(in = last8Bits, out = evalLast8Bits);
+    Or(a = evalFirst8Bits, b = evalLast8Bits, out = notzr);
+    Not(in = notzr, out = zr);
 
+    Not(in = x[0], out = notxOneBit);
+    And(a = x[0], b = notxOneBit, out = zeroOneBit); // 1-bit zero
+    Not(in = zeroOneBit, out = oneOneBit); // 1-bit one
+    Mux16(a = fResult, b = notfResult, sel = no, out[15] = MSB, out[0..14] = unusedVar);
+    Mux(a = zeroOneBit, b = oneOneBit, sel = MSB, out = ng);
+
+    
 
 }
