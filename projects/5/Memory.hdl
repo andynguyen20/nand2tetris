@@ -25,5 +25,24 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-	//// Replace this comment with your code.
+
+    //MSB = 0 -> select from 16K RAM addresses (14-bit addresses), MSB = 1 -> select from screen or keyboard addresses (15-bit addresses) 
+    Not(in = address[14], out = notMSB); //Not to use in convenience of the And gate
+    And(a = load, b = notMSB, out = addressSelectionBit); 
+    RAM16K(in = in, load = addressSelectionBit, address = address[0..13], out = addressOut);
+
+
+    And(a = load, b = address[14], out = screenSelectionBit);
+    Mux(a = false, b = true, sel = address[12], out = fourKSelectionBit); //selects which 4K RAM chip to utilize of the 8K addresses for the screen    
+    And(a = screenSelectionBit, b = fourKSelectionBit, out = actualScreenSelectionBit);
+    RAM4K(in = in, load = actualScreenSelectionBit, address = address[0..11], out = upperScreenAddressOut);
+    RAM4K(in = in, load = actualScreenSelectionBit, address = address[0..11], out = lowerScreenAddressOut);
+
+    And(a = load, b = address[13], out = keyboardLoad);
+    Register(in = in, load = keyboardLoad, out = keyboardAddressOut);
+
+    Mux4Way16(a = in, b = addressOut, c = upperScreenAddressOut, d = keyboardAddressOut, sel = address[13..14], out = prerequisiteOut);
+
+    Mux16(a = prerequisiteOut, b = lowerScreenAddressOut, sel = address[12], out = out);
+
 }
